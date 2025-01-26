@@ -3,11 +3,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { login } from "../../services/auth";
 import { useErrorHandler } from "../../utils/ErrorHandler";
-import { useNavigate } from "react-router-dom"; // Add this
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { t } = useTranslation("login");
-  const navigate = useNavigate(); // Add this
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -22,7 +22,12 @@ const Login = () => {
     try {
       const response = await login({ email, password });
       console.log("Login successful:", response);
+
+      // Navigate to the home page
       navigate("/");
+
+      // Refresh the page after navigation
+      window.location.reload();
     } catch (err) {
       const errorMessage = handleError(err, "login");
       setError(errorMessage);
@@ -61,7 +66,7 @@ const Login = () => {
         <button
           type="submit"
           className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center"
-          disabled={loading} // Disable the button when loading
+          disabled={loading}
         >
           {loading ? (
             <svg

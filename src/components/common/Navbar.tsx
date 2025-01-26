@@ -5,11 +5,12 @@ import SideMenu from "./SideMenu";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import DropdownMenu from "./DropdownMenu"; // Import the DropdownMenu component
+import { logout as apiLogout } from "../../services/auth"; // Import the logout API
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
-  const { logout } = useAuth();
+  const { logout } = useAuth(); // Get the logout function from AuthContext
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -20,10 +21,25 @@ const Navbar = () => {
     setIsMenuOpen(false);
   };
 
-  const handleLogout = () => {
-    logout(); // Call the logout function from your AuthContext
-    navigate("/login"); // Navigate to the login page
-    window.location.reload(); // Refresh the page
+  const handleLogout = async () => {
+    console.log("Logging out..."); // Debugging log
+    try {
+      // Call the logout API from auth.ts
+      await apiLogout();
+      console.log("Backend logout successful"); // Debugging log
+
+      // Call the logout function from AuthContext to clear local state
+      logout();
+
+      // Navigate to the login page
+      navigate("/login");
+
+      // Refresh the page to ensure the cookie is cleared
+      console.log("Refreshing page..."); // Debugging log
+      window.location.reload();
+    } catch (err) {
+      console.error("Failed to logout:", err); // Debugging log
+    }
   };
 
   return (
