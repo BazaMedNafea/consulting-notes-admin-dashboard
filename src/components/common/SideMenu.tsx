@@ -153,11 +153,11 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
                 >
                   <li>
                     <Link
-                      to="/admin/pending-registrations"
+                      to="/admin/approval"
                       className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                       onClick={onClose}
                     >
-                      {t("pendingRegistrations")}
+                      {t("pendingTeachers")}
                     </Link>
                   </li>
                   <li>

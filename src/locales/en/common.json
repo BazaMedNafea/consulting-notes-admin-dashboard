@@ -9,5 +9,14 @@
   "allTeachers": "All Teachers",
   "addTeacher": "Add Teacher",
   "gradeManagement": "Grade Management",
-  "viewGrades": "View Grades"
+  "viewGrades": "View Grades",
+  "name": "Name",
+  "email": "Email",
+  "subjects": "Subjects",
+  "status": "Status",
+  "approved": "Approved",
+  "pending": "Pending",
+  "pendingTeachers": "Pending Teachers",
+  "actions": "Actions",
+  "approve": "Approve"
 }

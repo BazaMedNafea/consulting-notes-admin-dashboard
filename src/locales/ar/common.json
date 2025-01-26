@@ -9,5 +9,14 @@
   "allTeachers": "جميع المعلمين",
   "addTeacher": "إضافة معلم",
   "gradeManagement": "إدارة الدرجات",
-  "viewGrades": "عرض الدرجات"
+  "viewGrades": "عرض الدرجات",
+  "name": "الاسم",
+  "email": "البريد الإلكتروني",
+  "subjects": "المواد",
+  "status": "الحالة",
+  "approved": "معتمد",
+  "pending": "قيد الانتظار",
+  "pendingTeachers": "المعلمين قيد الانتظار",
+  "actions": "الإجراءات",
+  "approve": "اعتماد"
 }

@@ -1,7 +1,24 @@
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { getTeachers } from "../../services/teacher"; // Import the getTeachers function
 
 const Homepage = () => {
   const { t } = useTranslation("homepage");
+  const [totalTeachers, setTotalTeachers] = useState(0); // State for total teachers
+
+  // Fetch teachers when the component mounts
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const teachers = await getTeachers(); // Fetch teachers from the backend
+        setTotalTeachers(teachers.length); // Update the total teachers count
+      } catch (err) {
+        console.error("Failed to fetch teachers:", err);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
 
   return (
     <div className="p-4">
@@ -12,7 +29,10 @@ const Homepage = () => {
         {/* Total Teachers Card */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-2">{t("totalTeachers")}</h2>
-          <p className="text-3xl font-bold text-blue-500">42</p>
+          <p className="text-3xl font-bold text-blue-500">
+            {totalTeachers}
+          </p>{" "}
+          {/* Dynamic count */}
         </div>
 
         {/* Total Parents Card */}
