@@ -1,0 +1,13 @@
+{
+  "home": "Home",
+  "logout": "Logout",
+  "about": "About",
+  "item": "Item",
+  "darkMode": "Dark Mode",
+  "admin": "Admin",
+  "pendingRegistrations": "Pending Registrations",
+  "allTeachers": "All Teachers",
+  "addTeacher": "Add Teacher",
+  "gradeManagement": "Grade Management",
+  "viewGrades": "View Grades"
+}
