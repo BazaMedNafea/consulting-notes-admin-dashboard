@@ -6,7 +6,11 @@ import Register from "./pages/auth/Register";
 import Layout from "./layouts/Layout";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import AllTeachers from "./pages/teachers/AllTeachers";
-import TeacherApproval from "./pages/teachers/TeacherApproval";
+import AllParents from "./pages/parents/AllParents";
+import AddParent from "./pages/parents/AddParent";
+import ParentDetails from "./pages/parents/ParentDetails";
+import TeacherDetails from "./pages/teachers/TeacherDetails";
+import AddTeacher from "./pages/teachers/AddTeacher";
 
 const AppRoutes = () => {
   return (
@@ -52,11 +56,55 @@ const AppRoutes = () => {
         />
 
         <Route
-          path="/admin/approval"
+          path="/admin/add-teacher"
           element={
             <Layout>
               <ProtectedRoute>
-                <TeacherApproval />
+                <AddTeacher />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/teachers/:teacherId"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <TeacherDetails />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/admin/parents"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <AllParents />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/admin/add-parent"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <AddParent />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/parents/:parentId"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <ParentDetails />
               </ProtectedRoute>
             </Layout>
           }

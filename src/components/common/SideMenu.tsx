@@ -1,3 +1,4 @@
+// src/components/common/SideMenu.tsx
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../../contexts/DarkModeContext";
@@ -12,10 +13,15 @@ interface SideMenuProps {
 const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
   const { t, i18n } = useTranslation("common");
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false);
+  const [isTeachersMenuOpen, setTeachersMenuOpen] = useState(false);
+  const [isParentsMenuOpen, setParentsMenuOpen] = useState(false);
 
-  const toggleAdminMenu = () => {
-    setIsAdminMenuOpen(!isAdminMenuOpen);
+  const toggleTeachersMenu = () => {
+    setTeachersMenuOpen(!isTeachersMenuOpen);
+  };
+
+  const toggleParentsMenu = () => {
+    setParentsMenuOpen(!isParentsMenuOpen);
   };
 
   return (
@@ -120,16 +126,16 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
               </Link>
             </li>
 
-            {/* Admin Menu */}
+            {/* Teachers Menu */}
             <li>
               <button
-                onClick={toggleAdminMenu}
+                onClick={toggleTeachersMenu}
                 className="w-full flex justify-between items-center p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                <span>{t("admin")}</span>
+                <span>{t("teachers")}</span>
                 <svg
                   className={`w-4 h-4 transform transition-transform ${
-                    isAdminMenuOpen ? "rotate-180" : ""
+                    isTeachersMenuOpen ? "rotate-180" : ""
                   }`}
                   fill="none"
                   stroke="currentColor"
@@ -144,22 +150,13 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
                   ></path>
                 </svg>
               </button>
-              {/* Nested Admin Links */}
-              {isAdminMenuOpen && (
+              {/* Nested Teachers Links */}
+              {isTeachersMenuOpen && (
                 <ul
                   className={`pl-4 mt-2 space-y-2 ${
                     i18n.language === "ar" ? "pr-4 pl-0" : ""
                   }`}
                 >
-                  <li>
-                    <Link
-                      to="/admin/approval"
-                      className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={onClose}
-                    >
-                      {t("pendingTeachers")}
-                    </Link>
-                  </li>
                   <li>
                     <Link
                       to="/admin/teachers"
@@ -182,26 +179,57 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
               )}
             </li>
 
-            {/* Teacher Menu */}
+            {/* Parents Menu */}
             <li>
-              <Link
-                to="/teacher/grades"
-                className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                onClick={onClose}
+              <button
+                onClick={toggleParentsMenu}
+                className="w-full flex justify-between items-center p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                {t("gradeManagement")}
-              </Link>
-            </li>
-
-            {/* Parent Menu */}
-            <li>
-              <Link
-                to="/parent/grades"
-                className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                onClick={onClose}
-              >
-                {t("viewGrades")}
-              </Link>
+                <span>{t("parents")}</span>
+                <svg
+                  className={`w-4 h-4 transform transition-transform ${
+                    isParentsMenuOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+              {/* Nested Parents Links */}
+              {isParentsMenuOpen && (
+                <ul
+                  className={`pl-4 mt-2 space-y-2 ${
+                    i18n.language === "ar" ? "pr-4 pl-0" : ""
+                  }`}
+                >
+                  <li>
+                    <Link
+                      to="/admin/parents"
+                      className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={onClose}
+                    >
+                      {t("allParents")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/admin/add-parent"
+                      className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={onClose}
+                    >
+                      {t("addParent")}
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </li>
           </ul>
         </div>

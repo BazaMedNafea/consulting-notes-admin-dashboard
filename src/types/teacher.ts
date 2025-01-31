@@ -2,7 +2,8 @@
 export interface Teacher {
   teacherId: string;
   userId: string;
-  fullName: string;
+  fisrtName: string;
+  lastName: string;
   email: string;
   subjects: string[];
   approved: boolean;

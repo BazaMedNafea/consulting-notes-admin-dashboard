@@ -28,30 +28,30 @@ export const updateTeacherSubjects = async (
 export const addTeacher = async (data: {
   email: string;
   password: string;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   subjects: string[];
-  proofFile?: string;
 }) => {
-  const response = await api.post("/teacher/add", data); // Updated to /teacher
+  const response = await api.post("/teacher/add", data);
   return response.data;
 };
 
-// Update a teacher's information
+// Update teacher information
 export const updateTeacher = async (
   teacherId: string,
   data: {
-    subjects?: string[];
-    proofFile?: string;
-    fullName?: string;
     email?: string;
+    firstName?: string;
+    lastName?: string;
+    subjects?: string[];
+    bio?: string;
   }
 ) => {
-  const response = await api.put(`/teacher/${teacherId}/update`, data); // Updated to /teacher
+  const response = await api.put(`/teacher/${teacherId}/update`, data);
   return response.data;
 };
 
 // Approve a teacher (admin only)
-
 export const approveTeacher = async (teacherId: string) => {
   const response = await api.put(`/teacher/${teacherId}/approve`);
   return response.data;
