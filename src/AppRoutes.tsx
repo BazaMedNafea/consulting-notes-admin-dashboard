@@ -11,6 +11,11 @@ import AddParent from "./pages/parents/AddParent";
 import ParentDetails from "./pages/parents/ParentDetails";
 import TeacherDetails from "./pages/teachers/TeacherDetails";
 import AddTeacher from "./pages/teachers/AddTeacher";
+import AllStudents from "./pages/students/AllStudents";
+import AddStudent from "./pages/students/AddStudent";
+import AllSubjects from "./pages/subjects/AllSubjects";
+import AddSubject from "./pages/subjects/AddSubject";
+import StudentDetails from "./pages/students/StudentDetails";
 
 const AppRoutes = () => {
   return (
@@ -105,6 +110,61 @@ const AppRoutes = () => {
             <Layout>
               <ProtectedRoute>
                 <ParentDetails />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/admin/students"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <AllStudents />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/admin/add-student"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <AddStudent />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/students/:studentId"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <StudentDetails />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/admin/subjects"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <AllSubjects />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/admin/add-subject"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <AddSubject />
               </ProtectedRoute>
             </Layout>
           }

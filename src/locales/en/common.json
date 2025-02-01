@@ -48,5 +48,21 @@
   "failedToUpdateParent": "Failed to update parent. Please try again.",
   "failedToDeleteParent": "Failed to delete parent. Please try again.",
   "teachers": "Teachers",
-  "parents": "Parents"
+  "parents": "Parents",
+  "addStudent": "Add Student",
+  "allStudents": "All Students",
+  "studentDetails": "Student Details",
+  "grade": "Grade",
+  "parentId": "Parent ID",
+  "addingStudent": "Adding Student...",
+  "failedToAddStudent": "Failed to add student. Please try again.",
+  "students": "Students",
+  "addSubject": "Add Subject",
+  "allSubjects": "All Subjects",
+  "subjectDetails": "Subject Details",
+  "level": "Level",
+  "stream": "Stream",
+  "addingSubject": "Adding Subject...",
+  "failedToAddSubject": "Failed to add subject. Please try again.",
+  "bio": "Bio"
 }

@@ -48,5 +48,21 @@
   "failedToUpdateParent": "فشل تحديث ولي الأمر. يرجى المحاولة مرة أخرى.",
   "failedToDeleteParent": "فشل حذف ولي الأمر. يرجى المحاولة مرة أخرى.",
   "teachers": "المعلمين",
-  "parents": "أولياء الأمور"
+  "parents": "أولياء الأمور",
+  "addStudent": "إضافة طالب",
+  "allStudents": "جميع الطلاب",
+  "studentDetails": "تفاصيل الطالب",
+  "grade": "الصف",
+  "parentId": "معرف ولي الأمر",
+  "addingStudent": "جارٍ إضافة طالب...",
+  "failedToAddStudent": "فشل إضافة طالب. يرجى المحاولة مرة أخرى.",
+  "students": "الطلاب",
+  "addSubject": "إضافة مادة",
+  "allSubjects": "جميع المواد",
+  "subjectDetails": "تفاصيل المادة",
+  "level": "المستوى",
+  "stream": "التخصص",
+  "addingSubject": "جارٍ إضافة مادة...",
+  "failedToAddSubject": "فشل إضافة مادة. يرجى المحاولة مرة أخرى.",
+  "bio": "نبذة"
 }

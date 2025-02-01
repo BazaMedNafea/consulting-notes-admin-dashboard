@@ -15,6 +15,8 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isTeachersMenuOpen, setTeachersMenuOpen] = useState(false);
   const [isParentsMenuOpen, setParentsMenuOpen] = useState(false);
+  const [isStudentsMenuOpen, setStudentsMenuOpen] = useState(false);
+  const [isSubjectsMenuOpen, setSubjectsMenuOpen] = useState(false); // New state for Subjects menu
 
   const toggleTeachersMenu = () => {
     setTeachersMenuOpen(!isTeachersMenuOpen);
@@ -22,6 +24,14 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
 
   const toggleParentsMenu = () => {
     setParentsMenuOpen(!isParentsMenuOpen);
+  };
+
+  const toggleStudentsMenu = () => {
+    setStudentsMenuOpen(!isStudentsMenuOpen);
+  };
+
+  const toggleSubjectsMenu = () => {
+    setSubjectsMenuOpen(!isSubjectsMenuOpen); // Toggle Subjects menu
   };
 
   return (
@@ -226,6 +236,112 @@ const SideMenu = ({ isOpen, onClose }: SideMenuProps) => {
                       onClick={onClose}
                     >
                       {t("addParent")}
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
+
+            {/* Students Menu */}
+            <li>
+              <button
+                onClick={toggleStudentsMenu}
+                className="w-full flex justify-between items-center p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <span>{t("students")}</span>
+                <svg
+                  className={`w-4 h-4 transform transition-transform ${
+                    isStudentsMenuOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+              {/* Nested Students Links */}
+              {isStudentsMenuOpen && (
+                <ul
+                  className={`pl-4 mt-2 space-y-2 ${
+                    i18n.language === "ar" ? "pr-4 pl-0" : ""
+                  }`}
+                >
+                  <li>
+                    <Link
+                      to="/admin/students"
+                      className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={onClose}
+                    >
+                      {t("allStudents")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/admin/add-student"
+                      className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={onClose}
+                    >
+                      {t("addStudent")}
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
+
+            {/* Subjects Menu */}
+            <li>
+              <button
+                onClick={toggleSubjectsMenu}
+                className="w-full flex justify-between items-center p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <span>{t("subjects")}</span>
+                <svg
+                  className={`w-4 h-4 transform transition-transform ${
+                    isSubjectsMenuOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+              {/* Nested Subjects Links */}
+              {isSubjectsMenuOpen && (
+                <ul
+                  className={`pl-4 mt-2 space-y-2 ${
+                    i18n.language === "ar" ? "pr-4 pl-0" : ""
+                  }`}
+                >
+                  <li>
+                    <Link
+                      to="/admin/subjects"
+                      className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={onClose}
+                    >
+                      {t("allSubjects")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/admin/add-subject"
+                      className="block p-2 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={onClose}
+                    >
+                      {t("addSubject")}
                     </Link>
                   </li>
                 </ul>

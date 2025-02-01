@@ -1,51 +1,40 @@
-// src/pages/teachers/AllTeachers.tsx
+// src/pages/subjects/AllSubjects.tsx
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getTeachers } from "../../services/teacher";
+import { getSubjectsByLevel } from "../../services/subject";
 import { useNavigate } from "react-router-dom";
 
-interface Teacher {
-  teacherId: string;
-  userId: string;
-  user: {
-    userId: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-  };
-  subjects: {
-    subjectId: string;
-    name: string;
-    level: string;
-    stream: string | null;
-  }[];
+interface Subject {
+  subjectId: string;
+  name: string;
+  level: "PRIMARY" | "MIDDLE" | "SECONDARY";
+  stream: "SCIENCES" | "MATHEMATICS" | "LITERATURE" | "TECHNICAL" | null;
 }
 
-const AllTeachers = () => {
+const AllSubjects = () => {
   const { t } = useTranslation("common");
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Fetch teachers when the component mounts
   useEffect(() => {
-    const fetchTeachers = async () => {
+    const fetchSubjects = async () => {
       try {
-        const data = await getTeachers();
-        setTeachers(data);
+        const data = await getSubjectsByLevel("SECONDARY"); // Default to secondary level
+        setSubjects(data);
       } catch (err) {
-        setError("Failed to fetch teachers. Please try again later.");
+        setError("Failed to fetch subjects. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTeachers();
+    fetchSubjects();
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>; // Add a loading spinner or skeleton loader
+    return <p>Loading...</p>;
   }
 
   if (error) {
@@ -54,9 +43,8 @@ const AllTeachers = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold mb-6">{t("allTeachers")}</h1>
+      <h1 className="text-3xl font-bold mb-6">{t("allSubjects")}</h1>
 
-      {/* Teachers Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -65,10 +53,10 @@ const AllTeachers = () => {
                 {t("name")}
               </th>
               <th className="px-2 py-2 text-left text-sm font-medium text-gray-700 dark:text-white">
-                {t("email")}
+                {t("level")}
               </th>
               <th className="px-2 py-2 text-left text-sm font-medium text-gray-700 dark:text-white">
-                {t("subjects")}
+                {t("stream")}
               </th>
               <th className="px-2 py-2 text-left text-sm font-medium text-gray-700 dark:text-white">
                 {t("actions")}
@@ -76,30 +64,23 @@ const AllTeachers = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {teachers.map((teacher) => (
+            {subjects.map((subject) => (
               <tr
-                key={teacher.teacherId}
+                key={subject.subjectId}
                 className="hover:bg-gray-50 dark:hover:bg-gray-700"
               >
-                {/* Teacher Name */}
                 <td className="px-2 py-2 text-sm text-gray-700 dark:text-white">
-                  {teacher.user.firstName} {teacher.user.lastName}
+                  {subject.name}
                 </td>
-
-                {/* Teacher Email */}
                 <td className="px-2 py-2 text-sm text-gray-700 dark:text-white">
-                  {teacher.user.email}
+                  {subject.level}
                 </td>
-
-                {/* Subjects */}
                 <td className="px-2 py-2 text-sm text-gray-700 dark:text-white">
-                  {teacher.subjects.map((subject) => subject.name).join(", ")}
+                  {subject.stream || "-"}
                 </td>
-
-                {/* View Details Button */}
                 <td className="px-2 py-2 text-sm text-gray-700 dark:text-white">
                   <button
-                    onClick={() => navigate(`/teachers/${teacher.teacherId}`)}
+                    onClick={() => navigate(`/subjects/${subject.subjectId}`)}
                     className="bg-blue-500 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors text-sm"
                   >
                     {t("viewDetails")}
@@ -114,4 +95,4 @@ const AllTeachers = () => {
   );
 };
 
-export default AllTeachers;
+export default AllSubjects;

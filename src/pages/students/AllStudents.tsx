@@ -1,51 +1,67 @@
-// src/pages/teachers/AllTeachers.tsx
+// src/pages/students/AllStudents.tsx
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getTeachers } from "../../services/teacher";
+import { getStudents } from "../../services/student";
 import { useNavigate } from "react-router-dom";
 
-interface Teacher {
-  teacherId: string;
-  userId: string;
-  user: {
+interface Student {
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  className: string;
+  parentId: string;
+  parent: {
+    parentId: string;
     userId: string;
-    email: string;
-    firstName: string;
-    lastName: string;
+    user: {
+      userId: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+    };
   };
-  subjects: {
-    subjectId: string;
-    name: string;
-    level: string;
-    stream: string | null;
+  grades: {
+    gradeId: string;
+    score: number;
+    quiz: {
+      quizId: string;
+      title: string;
+    };
+    exam: {
+      examId: string;
+      title: string;
+    };
+    course: {
+      courseId: string;
+      title: string;
+    };
   }[];
 }
 
-const AllTeachers = () => {
+const AllStudents = () => {
   const { t } = useTranslation("common");
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Fetch teachers when the component mounts
   useEffect(() => {
-    const fetchTeachers = async () => {
+    const fetchStudents = async () => {
       try {
-        const data = await getTeachers();
-        setTeachers(data);
+        const data = await getStudents();
+        setStudents(data);
       } catch (err) {
-        setError("Failed to fetch teachers. Please try again later.");
+        setError("Failed to fetch students. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTeachers();
+    fetchStudents();
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>; // Add a loading spinner or skeleton loader
+    return <p>Loading...</p>;
   }
 
   if (error) {
@@ -54,9 +70,8 @@ const AllTeachers = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold mb-6">{t("allTeachers")}</h1>
+      <h1 className="text-3xl font-bold mb-6">{t("allStudents")}</h1>
 
-      {/* Teachers Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -68,7 +83,10 @@ const AllTeachers = () => {
                 {t("email")}
               </th>
               <th className="px-2 py-2 text-left text-sm font-medium text-gray-700 dark:text-white">
-                {t("subjects")}
+                {t("parent")}
+              </th>
+              <th className="px-2 py-2 text-left text-sm font-medium text-gray-700 dark:text-white">
+                {t("grade")}
               </th>
               <th className="px-2 py-2 text-left text-sm font-medium text-gray-700 dark:text-white">
                 {t("actions")}
@@ -76,30 +94,33 @@ const AllTeachers = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {teachers.map((teacher) => (
+            {students.map((student) => (
               <tr
-                key={teacher.teacherId}
+                key={student.studentId}
                 className="hover:bg-gray-50 dark:hover:bg-gray-700"
               >
-                {/* Teacher Name */}
                 <td className="px-2 py-2 text-sm text-gray-700 dark:text-white">
-                  {teacher.user.firstName} {teacher.user.lastName}
+                  {student.firstName} {student.lastName}
                 </td>
-
-                {/* Teacher Email */}
                 <td className="px-2 py-2 text-sm text-gray-700 dark:text-white">
-                  {teacher.user.email}
+                  {student.parent.user.email}
                 </td>
-
-                {/* Subjects */}
                 <td className="px-2 py-2 text-sm text-gray-700 dark:text-white">
-                  {teacher.subjects.map((subject) => subject.name).join(", ")}
+                  {student.parent.user.firstName} {student.parent.user.lastName}
                 </td>
-
-                {/* View Details Button */}
+                <td className="px-2 py-2 text-sm text-gray-700 dark:text-white">
+                  {student.grades.map((grade) => (
+                    <div key={grade.gradeId}>
+                      <p>Course: {grade.course.title}</p>
+                      <p>Quiz: {grade.quiz.title}</p>
+                      <p>Exam: {grade.exam.title}</p>
+                      <p>Score: {grade.score}</p>
+                    </div>
+                  ))}
+                </td>
                 <td className="px-2 py-2 text-sm text-gray-700 dark:text-white">
                   <button
-                    onClick={() => navigate(`/teachers/${teacher.teacherId}`)}
+                    onClick={() => navigate(`/students/${student.studentId}`)}
                     className="bg-blue-500 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition-colors text-sm"
                   >
                     {t("viewDetails")}
@@ -114,4 +135,4 @@ const AllTeachers = () => {
   );
 };
 
-export default AllTeachers;
+export default AllStudents;
