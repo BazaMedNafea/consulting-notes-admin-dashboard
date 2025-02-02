@@ -17,8 +17,10 @@ export const getStudentById = async (studentId: string) => {
 export const addStudent = async (data: {
   firstName: string;
   lastName: string;
-  className: string; // Changed from `grade` to `className` to match the backend
+  level: string; // New field for level
+  year: string; // New field for year
   parentEmail: string;
+  stream?: string; // New field for stream (optional)
 }) => {
   const response = await api.post("/student/add", data);
   return response.data;
@@ -31,8 +33,10 @@ export const updateStudent = async (
     email?: string;
     firstName?: string;
     lastName?: string;
-    className?: string; // Changed from `grade` to `className` to match the backend
+    level?: string; // New field for level
+    year?: string; // New field for year
     parentId?: string;
+    stream?: string; // New field for stream (optional)
   }
 ) => {
   const response = await api.put(`/student/${studentId}`, data);

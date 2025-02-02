@@ -13,7 +13,7 @@ export const getParentById = async (parentId: string) => {
   return response.data;
 };
 
-// Add a parent (admin only)
+// Add a parent
 export const addParent = async (data: {
   email: string;
   password: string;
@@ -26,7 +26,7 @@ export const addParent = async (data: {
   return response.data;
 };
 
-// Edit a parent (admin only)
+// Edit a parent
 export const editParent = async (
   parentId: string,
   data: {
@@ -44,5 +44,25 @@ export const editParent = async (
 // Delete a parent (admin only)
 export const deleteParent = async (parentId: string) => {
   const response = await api.delete(`/parent/${parentId}`);
+  return response.data;
+};
+
+// Enroll a student in a course
+export const enrollStudentToCourse = async (data: {
+  parentId: string;
+  studentId: string;
+  courseId: string;
+}) => {
+  const response = await api.post("/parent/enroll", data);
+  return response.data;
+};
+
+// Unenroll a student from a course
+export const unenrollStudentFromCourse = async (data: {
+  parentId: string;
+  studentId: string;
+  courseId: string;
+}) => {
+  const response = await api.post("/parent/unenroll", data);
   return response.data;
 };
