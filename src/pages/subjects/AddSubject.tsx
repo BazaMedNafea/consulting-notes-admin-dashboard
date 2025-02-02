@@ -6,11 +6,14 @@ import { useNavigate } from "react-router-dom";
 const AddSubject = () => {
   const { t } = useTranslation("common");
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     level: "PRIMARY" as "PRIMARY" | "MIDDLE" | "SECONDARY",
     stream: "" as "SCIENCES" | "MATHEMATICS" | "LITERATURE" | "TECHNICAL" | "",
+    year: "FIRST" as "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH",
   });
+
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +30,7 @@ const AddSubject = () => {
     setError(null);
 
     // Validate input
-    if (!formData.name || !formData.level) {
+    if (!formData.name || !formData.level || !formData.year) {
       setError("Missing required fields");
       setLoading(false);
       return;
@@ -37,6 +40,7 @@ const AddSubject = () => {
       await addSubject({
         name: formData.name,
         level: formData.level,
+        year: formData.year,
         stream:
           formData.level === "SECONDARY"
             ? formData.stream || undefined
@@ -85,6 +89,25 @@ const AddSubject = () => {
           </select>
         </div>
 
+        {/* Year Selection */}
+        <div>
+          <label className="block text-sm font-medium mb-1">{t("year")}</label>
+          <select
+            name="year"
+            value={formData.year}
+            onChange={handleInputChange}
+            className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-700"
+            required
+          >
+            <option value="FIRST">1st Year</option>
+            <option value="SECOND">2nd Year</option>
+            <option value="THIRD">3rd Year</option>
+            <option value="FOURTH">4th Year</option>
+            <option value="FIFTH">5th Year</option>
+          </select>
+        </div>
+
+        {/* Stream Selection (Only for Secondary Level) */}
         {formData.level === "SECONDARY" && (
           <div>
             <label className="block text-sm font-medium mb-1">

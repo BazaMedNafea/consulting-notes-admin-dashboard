@@ -30,7 +30,11 @@ export const addTeacher = async (data: {
   password: string;
   firstName: string;
   lastName: string;
-  subjects: string[];
+  subjects: {
+    name: string;
+    level: "PRIMARY" | "MIDDLE" | "SECONDARY";
+    year: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH";
+  }[];
 }) => {
   const response = await api.post("/teacher/add", data);
   return response.data;
@@ -43,7 +47,7 @@ export const updateTeacher = async (
     email?: string;
     firstName?: string;
     lastName?: string;
-    subjects?: string[];
+    subjects?: { name: string }[]; // Updated to match the new subject structure
     bio?: string;
   }
 ) => {

@@ -9,6 +9,7 @@ interface Subject {
   name: string;
   level: "PRIMARY" | "MIDDLE" | "SECONDARY";
   stream: "SCIENCES" | "MATHEMATICS" | "LITERATURE" | "TECHNICAL" | null;
+  year: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH";
 }
 
 const LEVELS = ["PRIMARY", "MIDDLE", "SECONDARY"] as const;
@@ -22,7 +23,11 @@ const AddTeacher = () => {
     password: "",
     firstName: "",
     lastName: "",
-    subjects: [] as string[],
+    subjects: [] as Array<{
+      name: string;
+      level: "PRIMARY" | "MIDDLE" | "SECONDARY";
+      year: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH";
+    }>,
   });
   const [allSubjects, setAllSubjects] = useState<Record<string, Subject[]>>({});
   const [loading, setLoading] = useState(false);
@@ -52,11 +57,22 @@ const AddTeacher = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const toggleSubject = (subjectName: string) => {
+  const toggleSubject = (subject: Subject) => {
     setFormData((prev) => {
-      const subjects = prev.subjects.includes(subjectName)
-        ? prev.subjects.filter((s) => s !== subjectName)
-        : [...prev.subjects, subjectName];
+      const subjectIndex = prev.subjects.findIndex(
+        (s) => s.name === subject.name
+      );
+      const subjects =
+        subjectIndex === -1
+          ? [
+              ...prev.subjects,
+              {
+                name: subject.name,
+                level: subject.level,
+                year: subject.year,
+              },
+            ]
+          : prev.subjects.filter((s) => s.name !== subject.name);
       return { ...prev, subjects };
     });
   };
@@ -78,7 +94,10 @@ const AddTeacher = () => {
     }
 
     try {
-      await addTeacher(formData);
+      await addTeacher({
+        ...formData,
+        subjects: formData.subjects, // Send the entire subject object
+      });
       alert("Teacher added successfully!");
       navigate("/admin/teachers");
     } catch (err) {
@@ -87,7 +106,6 @@ const AddTeacher = () => {
       setLoading(false);
     }
   };
-
   const getFilteredSubjects = () => {
     const filtered: Record<string, Subject[]> = {};
 
@@ -202,13 +220,20 @@ const AddTeacher = () => {
             <div className="flex flex-wrap gap-2">
               {formData.subjects.map((subject) => (
                 <span
-                  key={subject}
+                  key={subject.name}
                   className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-2"
                 >
-                  {subject}
+                  {subject.name}
                   <button
                     type="button"
-                    onClick={() => toggleSubject(subject)}
+                    onClick={() =>
+                      toggleSubject({
+                        ...subject,
+                        level: subject.level,
+                        stream: null,
+                        subjectId: "",
+                      })
+                    }
                     className="hover:text-red-500"
                   >
                     ×
@@ -238,9 +263,11 @@ const AddTeacher = () => {
                           <button
                             key={subject.subjectId}
                             type="button"
-                            onClick={() => toggleSubject(subject.name)}
+                            onClick={() => toggleSubject(subject)}
                             className={`p-2 text-left rounded transition-colors ${
-                              formData.subjects.includes(subject.name)
+                              formData.subjects.some(
+                                (s) => s.name === subject.name
+                              )
                                 ? "bg-blue-100 text-blue-800 hover:bg-blue-200"
                                 : "hover:bg-gray-100 dark:hover:bg-gray-700"
                             }`}

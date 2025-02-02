@@ -6,6 +6,7 @@ export const addSubject = async (data: {
   name: string;
   level: "PRIMARY" | "MIDDLE" | "SECONDARY";
   stream?: "SCIENCES" | "MATHEMATICS" | "LITERATURE" | "TECHNICAL";
+  year: "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "FIFTH"; // Add this
 }) => {
   const response = await api.post("/subject", data);
   return response.data;

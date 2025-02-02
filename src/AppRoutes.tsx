@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-
 import Layout from "./layouts/Layout";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import AllTeachers from "./pages/teachers/AllTeachers";
