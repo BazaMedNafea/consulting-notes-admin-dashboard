@@ -13,7 +13,6 @@ interface Subject {
 }
 
 const LEVELS = ["PRIMARY", "MIDDLE", "SECONDARY"] as const;
-const STREAMS = ["SCIENCES", "MATHEMATICS", "LITERATURE", "TECHNICAL"] as const;
 
 const AddTeacher = () => {
   const { t } = useTranslation("common");
@@ -60,8 +59,12 @@ const AddTeacher = () => {
   const toggleSubject = (subject: Subject) => {
     setFormData((prev) => {
       const subjectIndex = prev.subjects.findIndex(
-        (s) => s.name === subject.name
+        (s) =>
+          s.name === subject.name &&
+          s.level === subject.level &&
+          s.year === subject.year
       );
+
       const subjects =
         subjectIndex === -1
           ? [
@@ -72,7 +75,15 @@ const AddTeacher = () => {
                 year: subject.year,
               },
             ]
-          : prev.subjects.filter((s) => s.name !== subject.name);
+          : prev.subjects.filter(
+              (s) =>
+                !(
+                  s.name === subject.name &&
+                  s.level === subject.level &&
+                  s.year === subject.year
+                )
+            );
+
       return { ...prev, subjects };
     });
   };
@@ -124,15 +135,16 @@ const AddTeacher = () => {
   };
 
   const groupSubjectsByStream = (subjects: Subject[]) => {
-    const grouped: Record<string, Subject[]> = {
-      NO_STREAM: subjects.filter((s) => !s.stream),
-    };
+    const grouped: Record<string, Subject[]> = {};
 
-    STREAMS.forEach((stream) => {
-      const streamSubjects = subjects.filter((s) => s.stream === stream);
-      if (streamSubjects.length > 0) {
-        grouped[stream] = streamSubjects;
+    subjects.forEach((subject) => {
+      const key = `${subject.level}-${subject.year}-${
+        subject.stream || "NO_STREAM"
+      }`;
+      if (!grouped[key]) {
+        grouped[key] = [];
       }
+      grouped[key].push(subject);
     });
 
     return grouped;
@@ -251,33 +263,37 @@ const AddTeacher = () => {
                 </h3>
 
                 {Object.entries(groupSubjectsByStream(subjects)).map(
-                  ([stream, streamSubjects]) => (
-                    <div key={stream} className="ml-4 space-y-1">
-                      {stream !== "NO_STREAM" && (
+                  ([groupKey, groupSubjects]) => {
+                    const [, year, stream] = groupKey.split("-");
+                    return (
+                      <div key={groupKey} className="ml-4 space-y-1">
                         <h4 className="font-medium text-sm text-gray-600 dark:text-gray-400">
-                          {t(stream.toLowerCase())}
+                          {t(stream.toLowerCase())} - {t(year.toLowerCase())}
                         </h4>
-                      )}
-                      <div className="grid grid-cols-2 gap-1">
-                        {streamSubjects.map((subject) => (
-                          <button
-                            key={subject.subjectId}
-                            type="button"
-                            onClick={() => toggleSubject(subject)}
-                            className={`p-2 text-left rounded transition-colors ${
-                              formData.subjects.some(
-                                (s) => s.name === subject.name
-                              )
-                                ? "bg-blue-100 text-blue-800 hover:bg-blue-200"
-                                : "hover:bg-gray-100 dark:hover:bg-gray-700"
-                            }`}
-                          >
-                            {subject.name}
-                          </button>
-                        ))}
+                        <div className="grid grid-cols-2 gap-1">
+                          {groupSubjects.map((subject) => (
+                            <button
+                              key={subject.subjectId}
+                              type="button"
+                              onClick={() => toggleSubject(subject)}
+                              className={`p-2 text-left rounded transition-colors ${
+                                formData.subjects.some(
+                                  (s) =>
+                                    s.name === subject.name &&
+                                    s.level === subject.level &&
+                                    s.year === subject.year
+                                )
+                                  ? "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                                  : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                              }`}
+                            >
+                              {subject.name}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )
+                    );
+                  }
                 )}
               </div>
             ))}
