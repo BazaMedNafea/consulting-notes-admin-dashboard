@@ -7,6 +7,8 @@ interface Parent {
   parentId: string;
   userId: string;
   user: {
+    address: string;
+    phoneNumber: string;
     userId: string;
     email: string;
     firstName: string;
@@ -54,8 +56,8 @@ const ParentDetails = () => {
           email: data.user.email,
           firstName: data.user.firstName,
           lastName: data.user.lastName,
-          phoneNumber: data.phoneNumber,
-          address: data.address,
+          phoneNumber: data.user.phoneNumber,
+          address: data.user.address,
         });
       } catch (err) {
         setError("Failed to fetch parent details. Please try again later.");
@@ -222,10 +224,10 @@ const ParentDetails = () => {
             <strong>{t("email")}:</strong> {parent.user.email}
           </p>
           <p className="text-gray-700 dark:text-white mb-4">
-            <strong>{t("phoneNumber")}:</strong> {parent.phoneNumber}
+            <strong>{t("phoneNumber")}:</strong> {parent.user.phoneNumber}
           </p>
           <p className="text-gray-700 dark:text-white mb-6">
-            <strong>{t("address")}:</strong> {parent.address}
+            <strong>{t("address")}:</strong> {parent.user.address}
           </p>
 
           <h3 className="text-2xl font-bold mb-4">{t("students")}</h3>
